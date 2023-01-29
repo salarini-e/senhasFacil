@@ -17,11 +17,11 @@
   <p>Data do atendimento: {{ senha.data_atendimento }}</p>
   
   {% if senha %}
-  <a href="/em-atendimento/{{senha.id}}">
+  <a href="/em-atendimento/{{senha.id}}/{{prefixo}}">
     Em atendimento
   </a>
   {% else %}
-  <a href="/em-atendimento/{{senha.id}}">
+  <a href="/chamar-proxima-senha/{{prefixo}}">
     Chamar próximo da fila
   </a>
   {% endif %}
@@ -62,7 +62,7 @@ function montaTabela(dados) {
     });    
 }
 function busca(){
-  fetch("/tabela-dados-fila/")
+  fetch("/tabela-dados-fila/{{prefixo}}")
         .then(function(response) {
             return response.json();
         })

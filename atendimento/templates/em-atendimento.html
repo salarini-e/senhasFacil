@@ -6,5 +6,5 @@
   <p>Senha: {{ senha.numero_senha }}</p>
   <p>Nome do cliente: {{ senha.nome_cliente }}</p>
   <p>Data do atendimento: {{ senha.data_atendimento }}</p>
-  <a href="/finalizar-atendimento/{{senha.id}}">Finalizar atendimento</a>
+  <a href="/finalizar-atendimento/{{senha.id}}/{{prefixo}}">Finalizar atendimento</a>
 {% endblock %}
