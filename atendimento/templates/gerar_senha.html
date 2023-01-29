@@ -5,7 +5,7 @@
 {% block content %}
     <form method="POST">
         {% csrf_token %}
-        <label for="nome">Nome:</label>
+        {% comment %} <label for="nome">Nome:</label>
         <input type="text" id="nome_cliente" name="nome_cliente" required>
         <br>
         <label for="tipo_atendimento">Tipo de atendimento:</label>
@@ -13,7 +13,10 @@
           {% for tipo in tipos_atendimento %}
           <option value="{{ tipo.id }}">{{ tipo.nome }}</option>
           {% endfor %}
-        </select>
+        </select> {% endcomment %}
+        <table>
+          {{form.as_table}}  
+        </table>
         <br>
         <input type="submit" value="Gerar senha">
       </form>

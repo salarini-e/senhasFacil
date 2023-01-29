@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect
 from .forms import GerarSenhaForm
 from .models import Atendimento, TipoAtendimento, Atendente
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
+@login_required
 def gerar_senha(request):
     form = GerarSenhaForm()    
     if request.method == "POST":
@@ -19,6 +21,7 @@ def gerar_senha(request):
     context={'form': form, 'tipos_atendimento': TipoAtendimento.objects.all()}
     return render(request, 'gerar_senha.html', context)
 
+@login_required
 def chamar_proxima_senha(request):
     atendente = Atendente.objects.get(user=request.user)    
     if request.method == 'POST':        
@@ -36,6 +39,7 @@ def chamar_proxima_senha(request):
         senha_atual=Atendimento.objects.filter(status_atendimento='chamando', atendente=atendente).order_by('data_atendimento').first()
     return render(request, 'proxima_senha.html', {'senha': senha_atual, 'cabine': atendente.cabine})
 
+@login_required
 def ocioso(request):
     atendente = Atendente.objects.get(user=request.user)    
     if request.method == 'POST':        
@@ -44,13 +48,13 @@ def ocioso(request):
     senha_atual=None
     return render(request, 'proxima_senha.html', {'senha': senha_atual, 'cabine': atendente.cabine})
 
-
+@login_required
 def senhas_chamadas(request):
     senhas = Atendimento.objects.filter(status_atendimento='chamando').order_by('-data_atendimento')[:10]
     context = {'senhas': senhas}
     return render(request, 'senhas_chamadas.html', context)
 
-
+@login_required
 def tabela_dados(request):
     # atendimentos = Atendimento.objects.filter(status_atendimento='chamando').order_by('data_atendimento').first()
     atendimentos = Atendimento.objects.all()
@@ -65,6 +69,7 @@ def tabela_dados(request):
     ]
     return JsonResponse(dados, safe=False)
 
+@login_required
 def tabela_dados_fila(request):
     # atendimentos = Atendimento.objects.filter(status_atendimento='chamando').order_by('data_atendimento').first()
     atendimentos = Atendimento.objects.all()
@@ -78,6 +83,7 @@ def tabela_dados_fila(request):
     ]
     return JsonResponse(dados, safe=False)
 
+@login_required
 def emAtendimento(request, id):
     try:
         atendimento = Atendimento.objects.get(id=id)
@@ -91,6 +97,7 @@ def emAtendimento(request, id):
         }
     return render(request, 'em-atendimento.html', context)
 
+@login_required
 def finalizarAtendimento(request, id):
     try:
         atendimento = Atendimento.objects.get(id=id)
@@ -99,9 +106,10 @@ def finalizarAtendimento(request, id):
         pass
     return redirect('atendente')
 
-
+@login_required
 def proximo(request):
     return redirect('chamar_proxima_senha')
 
+@login_required
 def finalizarSemAtendimento(request):
     return redirect('chamar_proxima_senha')
