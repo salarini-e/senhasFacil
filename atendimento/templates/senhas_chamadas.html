@@ -25,6 +25,15 @@
   </table>
 </div>
 <script>
+function speak(text, cabine) {
+        var speech = new SpeechSynthesisUtterance();
+        speech.text = text+", por favor se dirija à cabine"+cabine;
+        speech.lang = 'pt-BR';
+        speech.volume = 1;
+        speech.rate = 1;
+        speech.pitch = 1;
+        window.speechSynthesis.speak(speech);
+}
 function montaTabela(dados) {    
     var corpoTabela = document.getElementById("tbody");
     corpoTabela.innerHTML = '';
@@ -48,6 +57,7 @@ function montaTabela(dados) {
         // linha.appendChild(status);
 
         corpoTabela.appendChild(linha);
+        speak(dado.cliente, dado.cabine);
     });    
 }
 
