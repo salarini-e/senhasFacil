@@ -3,13 +3,79 @@
 <form method="post">
     {% csrf_token %}
     <label for="cabine">Defina a sua cabine</label>
-    <input type="text" value="{{ atendente.cabine }}">
+    <input type="text" name="cabine" value="{{ cabine }}">
     <input type="submit" value="Definir cabine">
 </form>
-  <h1>Senha chamada</h1>
+  {% if senha %}
+  <h1>Chamando</h1>
+  {% else %}
+  <h1>Em espera</h1>
+  {% endif %}
   <p>Tipo de atendimento: {{ senha.tipo_atendimento.nome }}</p>
   <p>Senha: {{ senha.numero_senha }}</p>
   <p>Nome do cliente: {{ senha.nome_cliente }}</p>
   <p>Data do atendimento: {{ senha.data_atendimento }}</p>
-  <a href="/finalizar-atendimento/{{senha.id}}">Finalizar atendimento</a>
+  
+  {% if senha %}
+  <a href="/em-atendimento/{{senha.id}}">
+    Em atendimento
+  </a>
+  {% else %}
+  <a href="/em-atendimento/{{senha.id}}">
+    Chamar próximo da fila
+  </a>
+  {% endif %}
+  
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th>Senha</th>
+          <th>Nome do cliente</th>          
+          <!-- <th>Data e hora da chamada</th> -->
+        </tr>
+      </thead>
+      <tbody id="tbody">        
+      </tbody>
+    </table>
+  </div>
+<script>
+function montaTabela(dados) {    
+    var corpoTabela = document.getElementById("tbody");
+    corpoTabela.innerHTML = '';
+    dados.forEach(function(dado) {
+        var linha = document.createElement("tr");
+
+        var senha = document.createElement("td");
+        senha.innerHTML = dado.senha;
+        linha.appendChild(senha);
+        
+        var cliente = document.createElement("td");
+        cliente.innerHTML = dado.cliente;
+        linha.appendChild(cliente);
+      
+        // var status = document.createElement("td");
+        // status.innerHTML = dado.status;
+        // linha.appendChild(status);
+
+        corpoTabela.appendChild(linha);        
+    });    
+}
+function busca(){
+  fetch("/tabela-dados-fila/")
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(dados) {
+            montaTabela(dados);
+        });
+    }
+
+busca()
+setInterval(function() {
+    busca()
+}, 10000);
+</script>
+
+  
 {% endblock %}

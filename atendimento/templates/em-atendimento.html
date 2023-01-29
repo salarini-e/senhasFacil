@@ -1,0 +1,10 @@
+{% extends 'template.html' %}
+{% block content %}
+
+  <h1>EM ATENDIMENTO</h1>
+  <p>Tipo de atendimento: {{ senha.tipo_atendimento.nome }}</p>
+  <p>Senha: {{ senha.numero_senha }}</p>
+  <p>Nome do cliente: {{ senha.nome_cliente }}</p>
+  <p>Data do atendimento: {{ senha.data_atendimento }}</p>
+  <a href="/finalizar-atendimento/{{senha.id}}">Finalizar atendimento</a>
+{% endblock %}

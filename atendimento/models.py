@@ -34,7 +34,11 @@ class Atendimento(models.Model):
         else:
             self.numero_senha = 1
         return f'{self.tipo_atendimento.prefixo}{str(self.numero_senha).zfill(3)}'
-
+    
+    def emAtendimento(self):
+        self.status_atendimento = 'em atendimento'
+        self.save()
+    
     def finalizar(self):
         self.status_atendimento = 'finalizado'
         self.save()
