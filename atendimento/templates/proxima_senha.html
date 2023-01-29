@@ -1,0 +1,15 @@
+{% extends 'template.html' %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <label for="cabine">Defina a sua cabine</label>
+    <input type="text" value="{{ atendente.cabine }}">
+    <input type="submit" value="Definir cabine">
+</form>
+  <h1>Senha chamada</h1>
+  <p>Tipo de atendimento: {{ senha.tipo_atendimento.nome }}</p>
+  <p>Senha: {{ senha.numero_senha }}</p>
+  <p>Nome do cliente: {{ senha.nome_cliente }}</p>
+  <p>Data do atendimento: {{ senha.data_atendimento }}</p>
+  <a href="/finalizar-atendimento/{{senha.id}}">Finalizar atendimento</a>
+{% endblock %}

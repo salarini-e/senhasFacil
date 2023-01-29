@@ -1,0 +1,20 @@
+{% extends 'template.html' %}
+{% block subtitulo %}
+- Gerar Senha
+{% endblock %}
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome_cliente" name="nome_cliente" required>
+        <br>
+        <label for="tipo_atendimento">Tipo de atendimento:</label>
+        <select id="tipo_atendimento" name="tipo_atendimento" required>
+          {% for tipo in tipos_atendimento %}
+          <option value="{{ tipo.id }}">{{ tipo.nome }}</option>
+          {% endfor %}
+        </select>
+        <br>
+        <input type="submit" value="Gerar senha">
+      </form>
+{% endblock %}
